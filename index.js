@@ -161,6 +161,8 @@ function copyCode(btn) {
     });
 }
 
+document.querySelectorAll('.copy-btn').forEach((btn) => btn.addEventListener('click', () => copyCode(btn)));
+
 const lightbox = document.createElement('div');
 lightbox.className = 'lightbox-overlay';
 const lbImg = document.createElement('img');

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://raw.githubusercontent.com; object-src 'none'; base-uri 'self'; form-action 'self'">
     <title>SealSkin | Secure Remote Browser Isolation & Desktop Application Streaming</title>
     <meta name="description" content="Securely stream containerized desktop applications directly to your browser. Zero copy encoding, native GPU acceleration, and total privacy via WebSockets.">
     <meta name="author" content="LinuxServer.io">
@@ -152,7 +153,7 @@
                 </div>
                 <div class="tech-visual">
                     <code class="code-caption">// Auto-Install Script</code>
-                    <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button>mkdir sealskin
+                    <div class="code-block"><button class="copy-btn">Copy</button>mkdir sealskin
 cd sealskin
 bash <(curl -sSL https://raw.githubusercontent.com/linuxserver/docker-sealskin/refs/heads/master/install.sh)</div>
                     <p class="code-note">
@@ -301,7 +302,7 @@ bash <(curl -sSL https://raw.githubusercontent.com/linuxserver/docker-sealskin/r
                 <p>
                     The result? 60fps+ gaming-grade streaming performance on modest hardware.
                 </p>
-                <div class="code-block" style="margin-top: 1.5rem;"><button class="copy-btn" onclick="copyCode(this)">Copy</button>-e PIXELFLUX_WAYLAND=true</div>
+                <div class="code-block" style="margin-top: 1.5rem;"><button class="copy-btn">Copy</button>-e PIXELFLUX_WAYLAND=true</div>
             </div>
             <div class="tech-visual">
                 <img src="img/pixelflux_architecture.png" alt="Pixelflux Zero Copy Architecture">
