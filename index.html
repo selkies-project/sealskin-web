@@ -3,24 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://raw.githubusercontent.com; object-src 'none'; base-uri 'self'; form-action 'self'">
-    <title>SealSkin | Secure Remote Browser Isolation & Desktop Application Streaming</title>
-    <meta name="description" content="Securely stream containerized desktop applications directly to your browser. Zero copy encoding, native GPU acceleration, and total privacy via WebSockets.">
-    <meta name="author" content="LinuxServer.io">
-    <meta name="keywords" content="Remote Browser Isolation, RBI, VDI, Desktop Streaming, WebSockets, Wayland, Docker, Selkies, Linux, Self-Hosted">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://raw.githubusercontent.com; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+    <title>SealSkin | Self-hosted browser isolation and application streaming</title>
+    <meta name="description" content="SealSkin runs desktop applications in isolated containers on a server you control and streams them to any browser or phone. Open links, files, and downloads remotely instead of locally. Open source, built on Selkies.">
+    <meta name="author" content="Selkies Project">
+    <meta name="keywords" content="Remote Browser Isolation, RBI, VDI, application streaming, self-hosted, Docker, Kubernetes, Selkies, LinuxServer.io, Wayland, WebSockets, OpenID Connect, SAML">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sealskin.app/">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sealskin.app/">
-    <meta property="og:title" content="SealSkin | Your Browser is Your New Computer">
-    <meta property="og:description" content="Securely stream containerized desktop applications directly to your browser with complete isolation. No VPNs, no clients, just pure web.">
-    <meta property="og:image" content="https://sealskin.app/img/sealskin_dashboard.png">
+    <meta property="og:title" content="SealSkin | Your browser is your new computer">
+    <meta property="og:description" content="Self-hosted browser isolation and remote application streaming. Desktop applications in isolated containers on your server, streamed to any browser or phone.">
+    <meta property="og:image" content="https://sealskin.app/img/social-card.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@linuxserverio">
-    <meta name="twitter:title" content="SealSkin | Secure Remote Browser Isolation">
-    <meta name="twitter:description" content="Self-hosted remote browser isolation and desktop streaming. Native GPU acceleration and WebCodecs support.">
-    <meta name="twitter:image" content="https://sealskin.app/img/sealskin_dashboard.png">
+    <meta name="twitter:title" content="SealSkin | Your browser is your new computer">
+    <meta name="twitter:description" content="Self-hosted browser isolation and remote application streaming, from any browser or phone.">
+    <meta name="twitter:image" content="https://sealskin.app/img/social-card.png">
     <meta name="theme-color" content="#0d1117">
+    <link rel="icon" href="favicon.ico" sizes="48x48">
+    <link rel="icon" href="img/logo.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
     <link rel="stylesheet" href="index.css">
     <script src="theme.js"></script>
     <script type="application/ld+json">
@@ -29,313 +34,637 @@
       "@type": "SoftwareApplication",
       "name": "SealSkin",
       "url": "https://sealskin.app/",
-      "operatingSystem": "Linux, Web-based",
-      "applicationCategory": "UtilitiesApplication",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "description": "Securely stream containerized desktop applications directly to your browser with complete isolation.",
-      "softwareRequirements": "Docker, Linux",
+      "softwareVersion": "0.4.0",
+      "operatingSystem": "Linux, Kubernetes, Web-based",
+      "applicationCategory": "SecurityApplication",
+      "license": "https://www.mozilla.org/en-US/MPL/2.0/",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "description": "Self-hosted browser isolation and remote application streaming. SealSkin runs desktop applications in isolated containers on a server you control and streams them to any browser or phone.",
+      "softwareRequirements": "Docker or Kubernetes",
       "author": {
         "@type": "Organization",
-        "name": "LinuxServer.io",
-        "url": "https://www.linuxserver.io",
-        "sameAs": [
-            "https://x.com/linuxserverio",
-            "https://discord.com/invite/linuxserver",
-            "https://github.com/linuxserver"
-        ]
+        "name": "Selkies Project",
+        "url": "https://github.com/selkies-project",
+        "sameAs": ["https://github.com/selkies-project/sealskin", "https://www.linuxserver.io", "https://discord.com/invite/linuxserver"]
       },
-      "downloadUrl": "https://github.com/linuxserver/docker-sealskin",
-      "featureList": "Remote Browser Isolation, Desktop Streaming, Zero Copy Encoding, WebSockets"
+      "downloadUrl": "https://github.com/selkies-project/sealskin/releases",
+      "softwareHelp": { "@type": "CreativeWork", "url": "https://docs.sealskin.app/" },
+      "featureList": "Browser isolation, Application streaming, Web app, Browser extension, Mobile apps, OpenID Connect, SAML, Collaboration rooms, VPN exits, Clusters, Kubernetes, GPU acceleration"
     }
     </script>
 </head>
 <body>
 
-    <header>
-        <div class="container">
-            <div class="nav-flex">
-                <a href="https://github.com/selkies-project/sealskin/" class="logo" target="_blank">
-                    <img src="img/sealskin.png" alt="SealSkin Logo">
-                    <span>SealSkin</span>
-                </a>
-                <div class="nav-end">
-                    <nav class="nav-links">
-                        <a href="#downloads">Downloads</a>
-                        <a href="#apps">Applications</a>
-                        <a href="#features">Features</a>
-                        <a href="https://docs.sealskin.app/" target="_blank" rel="noopener noreferrer">Docs</a>
-                    </nav>
-                    <div class="theme-switch" role="group" aria-label="Color theme">
-                        <button type="button" data-theme-choice="system" aria-label="System theme" aria-pressed="true" title="System">
-                            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M3 5h18v11H3zM8 20h8M12 16v4"/></svg>
-                        </button>
-                        <button type="button" data-theme-choice="light" aria-label="Light theme" aria-pressed="false" title="Light">
-                            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></svg>
-                        </button>
-                        <button type="button" data-theme-choice="dark" aria-label="Dark theme" aria-pressed="false" title="Dark">
-                            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/></svg>
-                        </button>
-                    </div>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+        <div class="container nav-flex">
+            <a href="#top" class="logo" aria-label="SealSkin home">
+                <img src="img/logo.svg" alt="" width="36" height="36">
+                <span>SealSkin</span>
+            </a>
+            <div class="nav-end">
+                <nav class="nav-links" aria-label="Sections">
+                    <a href="#get">Get started</a>
+                    <a href="#apps">Applications</a>
+                    <a href="#features">Features</a>
+                    <a href="#how">How it works</a>
+                    <a href="https://docs.sealskin.app/" target="_blank" rel="noopener noreferrer">Docs</a>
+                    <a href="https://github.com/selkies-project/sealskin" target="_blank" rel="noopener noreferrer">GitHub</a>
+                </nav>
+                <div class="theme-switch" role="group" aria-label="Color theme">
+                    <button type="button" data-theme-choice="system" aria-label="System theme" aria-pressed="true" title="System">
+                        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M3 5h18v11H3zM8 20h8M12 16v4"/></svg>
+                    </button>
+                    <button type="button" data-theme-choice="light" aria-label="Light theme" aria-pressed="false" title="Light">
+                        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></svg>
+                    </button>
+                    <button type="button" data-theme-choice="dark" aria-label="Dark theme" aria-pressed="false" title="Dark">
+                        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/></svg>
+                    </button>
                 </div>
             </div>
         </div>
     </header>
 
-    <section class="hero-section">
-        <div id="hero-bg" class="hero-bg"></div>
+    <main id="main">
+
+    <!-- ================================================================ Hero -->
+    <section class="hero" id="top">
+        <div id="hero-bg" class="hero-bg" aria-hidden="true"></div>
         <div class="container hero-content">
-            <a href="https://www.linuxserver.io/blog/webtop-4-0-wayland-is-here-engage-the-reality-engine" class="hero-badge" target="_blank" rel="noopener noreferrer">
-                Now with Wayland Support
+            <a href="https://github.com/selkies-project/sealskin/releases/latest" class="hero-badge" target="_blank" rel="noopener noreferrer">
+                <span class="badge-version">0.4</span>
+                <span class="badge-long">The web app, sign in with your identity provider, clusters, Kubernetes, VPN exits</span>
+                <span class="badge-short">SealSkin 0.4 is out</span>
+                <span class="badge-arrow" aria-hidden="true">&rarr;</span>
             </a>
-            <h1>Your Browser is<br>Your New Computer.</h1>
+            <h1>Your browser is <br>your new computer.</h1>
             <p class="hero-text">
-                Securely stream containerized desktop applications directly to your browser with complete isolation. 
-                Zero copy encoding, native GPU acceleration, and total privacy.
+                SealSkin runs desktop applications in isolated containers on a server you control and
+                streams them to any browser or phone. Links, files, and downloads open there instead of
+                on the device in front of you, so nothing from the web ever runs locally.
             </p>
             <div class="hero-actions">
-                <a href="#downloads" class="btn btn-primary">Get Started</a>
-                <a href="https://docs.sealskin.app/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Read the Docs</a>
-                <a href="https://github.com/selkies-project/sealskin/" target="_blank" class="btn btn-secondary">View Source</a>
+                <a href="#get" class="btn btn-primary">Get started</a>
+                <a href="https://docs.sealskin.app/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Read the docs</a>
+                <a href="https://github.com/selkies-project/sealskin" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                    <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+                    Source
+                </a>
+            </div>
+            <ul class="hero-facts" aria-label="At a glance">
+                <li>Open source, MPL 2.0</li>
+                <li>Built on <a href="https://github.com/selkies-project/selkies" target="_blank" rel="noopener noreferrer">Selkies</a> and <a href="https://www.linuxserver.io" target="_blank" rel="noopener noreferrer">LinuxServer.io</a> images</li>
+                <li><span data-app-count>100+</span> applications in the catalog</li>
+                <li>Docker, Kubernetes, or a cluster</li>
+            </ul>
+            <figure class="browser-frame hero-shot">
+                <div class="browser-bar" aria-hidden="true"><span></span><span></span><span></span><div class="browser-url">https://sealskin.example.com/</div></div>
+                <img src="img/webapp-home.webp" alt="The SealSkin web app: a search box, two running sessions shown as live screenshots, a row of favorites, and application tiles over a wallpaper" width="2400" height="1500" fetchpriority="high">
+            </figure>
+        </div>
+    </section>
+
+    <!-- ========================================================== Three steps -->
+    <section class="steps-section" aria-labelledby="steps-title">
+        <div class="container">
+            <h2 id="steps-title" class="visually-hidden">How it goes</h2>
+            <ol class="steps">
+                <li>
+                    <span class="step-num">1</span>
+                    <h3>Run the server</h3>
+                    <p>One container on a Linux host with Docker, one manifest on Kubernetes, or several nodes as a cluster. The installer gets you a trusted certificate through Duck DNS.</p>
+                </li>
+                <li>
+                    <span class="step-num">2</span>
+                    <h3>Sign in from anywhere</h3>
+                    <p>Open the server's address in any browser. Sign in with the root key, or with the identity provider or reverse proxy you already have. Add the extension or the phone app with a key you make on the web.</p>
+                </li>
+                <li>
+                    <span class="step-num">3</span>
+                    <h3>Open things in isolation</h3>
+                    <p>Pick an application and launch it. Right-click a link, send a download, drop a file: it opens in a fresh container on the server, streamed to your tab. Close it and nothing is left behind, or keep a home directory.</p>
+                </li>
+            </ol>
+
+            <div class="tech-block launch-block">
+                <div class="tech-text">
+                    <p class="eyebrow">Launching</p>
+                    <h3>Pick an application, pick where it runs</h3>
+                    <p>
+                        A tile opens its launch options: a home directory that persists or a <strong>cleanroom</strong> that vanishes, a GPU, a VPN exit, the language, a collaboration room, and on a cluster the pool or node. The options are remembered per application, so the next launch is one click.
+                    </p>
+                    <p>
+                        <strong>Copy link</strong> gives the application a pinned address with those options in it. Bookmark it, put it on a phone's home screen, or install it from the browser as an app of its own, and it lands straight in a desktop.
+                    </p>
+                </div>
+                <div class="tech-visual">
+                    <img src="img/webapp-launch.webp" alt="Launch options for Blender: storage, GPU, language, collaborative session, Wayland mode, open in a new tab, with Copy link and Launch buttons" loading="lazy" width="1900" height="1188">
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="downloads" class="downloads-section">
+    <!-- =========================================================== Get it -->
+    <section id="get" class="get-section">
         <div class="container">
             <div class="section-header">
-                <h2>Get SealSkin</h2>
-                <p>Deploy the server on your hardware, then connect securely from any device.</p>
+                <p class="eyebrow">Get SealSkin</p>
+                <h2>A server you control, clients you already have.</h2>
+                <p>Deploy the server on your hardware, then connect from a browser, the extension, or the phone app.</p>
             </div>
 
-            <div class="download-category">
-                <span class="category-title">Server Component</span>
-                <div class="center-card-row">
-                    <a href="https://github.com/linuxserver/docker-sealskin" class="card" target="_blank">
-                        <div class="card-icon logo-sealskin"></div>
-                        <h3>SealSkin Server</h3>
-                        <p>Get the Docker Container. Self-hosted, end-to-end encrypted control plane.</p>
-                    </a>
+            <div class="get-grid">
+                <div class="panel server-panel">
+                    <div class="panel-head">
+                        <img src="img/logo.svg" alt="" width="40" height="40" class="panel-logo">
+                        <div>
+                            <h3>The server</h3>
+                            <p>Ships as the <a href="https://github.com/linuxserver/docker-sealskin" target="_blank" rel="noopener noreferrer" class="text-link">linuxserver/sealskin</a> container, and as a Python wheel on every release.</p>
+                        </div>
+                    </div>
+
+                    <div class="tabs" data-tabs>
+                        <div class="tab-list" role="tablist" aria-label="Ways to install the server">
+                            <button type="button" role="tab" id="tab-installer" aria-controls="pane-installer" aria-selected="true">Installer</button>
+                            <button type="button" role="tab" id="tab-compose" aria-controls="pane-compose" aria-selected="false" tabindex="-1">Compose</button>
+                            <button type="button" role="tab" id="tab-kube" aria-controls="pane-kube" aria-selected="false" tabindex="-1">Kubernetes</button>
+                        </div>
+
+                        <div role="tabpanel" id="pane-installer" aria-labelledby="tab-installer" class="tab-pane">
+                            <p>The quickest path to a working server with a trusted certificate. It needs Docker, a free <a href="https://www.duckdns.org/" target="_blank" rel="noopener noreferrer" class="text-link">Duck DNS</a> subdomain, and its token.</p>
+                            <div class="code-block"><button type="button" class="copy-btn">Copy</button>mkdir sealskin &amp;&amp; cd sealskin
+bash &lt;(curl -sSL https://raw.githubusercontent.com/linuxserver/docker-sealskin/refs/heads/master/install.sh)</div>
+                            <p class="code-note">The script creates the directories, obtains a Let's Encrypt wildcard certificate, writes a compose file, and starts the stack.</p>
+                        </div>
+
+                        <div role="tabpanel" id="pane-compose" aria-labelledby="tab-compose" class="tab-pane" hidden>
+                            <p>With a certificate of your own, or to start with the self-signed one the container generates.</p>
+                            <div class="code-block"><button type="button" class="copy-btn">Copy</button>services:
+  sealskin:
+    image: lscr.io/linuxserver/sealskin:latest
+    container_name: sealskin
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - HOST_URL=sealskin.example.com
+    volumes:
+      - ./config:/config
+      - ./storage:/storage
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 8443:8443
+    restart: unless-stopped</div>
+                            <p class="code-note">The container must be named <code>sealskin</code> and needs the Docker socket: every session is a container it starts. <a href="https://docs.sealskin.app/start" target="_blank" rel="noopener noreferrer" class="text-link">Getting Started</a> explains each line.</p>
+                        </div>
+
+                        <div role="tabpanel" id="pane-kube" aria-labelledby="tab-kube" class="tab-pane" hidden>
+                            <p>One manifest installs the server in any namespace you administer, with no cluster-scoped objects. Every session runs as a pod beside it.</p>
+                            <div class="code-block"><button type="button" class="copy-btn">Copy</button>curl -LO https://raw.githubusercontent.com/selkies-project/sealskin/main/kubernetes/sealskin.yml
+# set HOST_URL; a ReadWriteMany class lets sessions use every node
+kubectl apply -n &lt;namespace&gt; -f sealskin.yml</div>
+                            <p class="code-note">GPUs, pod templates, resource quotas, and pull secrets are honored. See <a href="https://docs.sealskin.app/kubernetes" target="_blank" rel="noopener noreferrer" class="text-link">Kubernetes</a> in the docs.</p>
+                        </div>
+                    </div>
+
+                    <div class="then-box">
+                        <strong>Then</strong> open <code>https://&lt;server&gt;:8443/</code>, sign in with the root key the first start wrote to <code>config/root_key</code>, and install your first application from the dashboard.
+                    </div>
+                </div>
+
+                <div class="clients-panel">
+                    <h3>The clients</h3>
+                    <div class="client-list">
+                        <a href="https://docs.sealskin.app/usage#in-a-browser-with-nothing-installed" class="client-card featured" target="_blank" rel="noopener noreferrer">
+                            <span class="client-icon">
+                                <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h19M12 2.5c2.8 2.9 4.2 6.1 4.2 9.5S14.8 18.6 12 21.5M12 2.5C9.2 5.4 7.8 8.6 7.8 12s1.4 6.6 4.2 9.5"/></g></svg>
+                            </span>
+                            <span class="client-text">
+                                <strong>Any browser</strong>
+                                <span>Nothing to install. The server's own address is the launcher, the files, and the dashboard. Installs as an app of its own.</span>
+                            </span>
+                        </a>
+                        <a href="https://chromewebstore.google.com/detail/sealskin-isolation/lclgfmnljgacfdpmmmjmfpdelndbbfhk" class="client-card" target="_blank" rel="noopener noreferrer">
+                            <span class="client-icon"><img src="img/chrome.svg" alt="" width="26" height="26"></span>
+                            <span class="client-text"><strong>Chrome Web Store</strong><span>Chrome, Edge, Brave, and other Chromium browsers. Right-click menu and download interception.</span></span>
+                        </a>
+                        <a href="https://addons.mozilla.org/en-US/firefox/addon/sealskin-isolation/" class="client-card" target="_blank" rel="noopener noreferrer">
+                            <span class="client-icon"><img src="img/firefox.svg" alt="" width="26" height="26"></span>
+                            <span class="client-text"><strong>Firefox Add-ons</strong><span>Context menus and uploads.</span></span>
+                        </a>
+                        <a href="https://apps.apple.com/us/app/sealskin/id6758210210" class="client-card" target="_blank" rel="noopener noreferrer">
+                            <span class="client-icon"><img src="img/ios.svg" alt="" width="26" height="26"></span>
+                            <span class="client-text"><strong>App Store</strong><span>iPhone and iPad.</span></span>
+                        </a>
+                        <a href="https://play.google.com/store/apps/details?id=io.linuxserver.sealskin" class="client-card" target="_blank" rel="noopener noreferrer">
+                            <span class="client-icon"><img src="img/android.svg" alt="" width="26" height="26"></span>
+                            <span class="client-text"><strong>Google Play</strong><span>Android.</span></span>
+                        </a>
+                    </div>
+                    <p class="clients-note">Every <a href="https://github.com/selkies-project/sealskin/releases" target="_blank" rel="noopener noreferrer" class="text-link">release</a> also carries the extension zips, the APK, the IPA, and the server wheel for sideloading.</p>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <div class="download-category">
-                <span class="category-title">Browser Extensions</span>
-                <div class="grid-2">
-                    <a href="https://chromewebstore.google.com/detail/sealskin-isolation/lclgfmnljgacfdpmmmjmfpdelndbbfhk" class="card" target="_blank">
-                        <div class="card-icon logo-chrome"></div>
-                        <h3>Google Chrome</h3>
-                        <p>Intercept downloads and isolate tabs.</p>
-                    </a>
-                    <a href="https://addons.mozilla.org/en-US/firefox/addon/sealskin-isolation/" class="card" target="_blank">
-                        <div class="card-icon logo-firefox"></div>
-                        <h3>Firefox</h3>
-                        <p>Secure browsing for Mozilla users.</p>
-                    </a>
-                </div>
+    <!-- ======================================================= Applications -->
+    <section id="apps" class="apps-section">
+        <div class="container section-header">
+            <p class="eyebrow">The catalog</p>
+            <h2><span data-app-count>100+</span> applications and desktops, one click from the dashboard.</h2>
+            <p>Browsers, office suites, IDEs, media editors, emulators, 3D tools, and full desktops from the <a href="https://github.com/linuxserver/sealskin-apps" target="_blank" rel="noopener noreferrer" class="text-link">LinuxServer.io catalog</a>. Add any Selkies-compatible image of your own, hand users a PRoot Apps catalog, or build custom launchers in the App Laboratory.</p>
+        </div>
+        <div class="scroller-track" id="appTrack">
+            <!-- Apps injected by index.js from apps.js -->
+        </div>
+    </section>
+
+    <!-- =========================================================== Features -->
+    <section id="features" class="features-section">
+        <div class="container">
+            <div class="section-header">
+                <p class="eyebrow">What it does</p>
+                <h2>Everything runs over there.</h2>
+                <p>A session is a container on your server. Your device only ever shows pixels.</p>
+            </div>
+            <div class="features-grid">
+                <article class="feature-item">
+                    <span class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5 4 5.5v6c0 4.6 3.4 8.6 8 9.9 4.6-1.3 8-5.3 8-9.9v-6l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg></span>
+                    <h3>Isolation</h3>
+                    <p>Links, files, downloads, and searches open in a fresh container. Cleanroom sessions leave nothing behind; persistent home directories keep what you choose.</p>
+                </article>
+                <article class="feature-item">
+                    <span class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/></svg></span>
+                    <h3>Any browser</h3>
+                    <p>The web app is the launcher, the file manager, and the admin pages, with nothing installed. Every application has a pinned address you can bookmark or put on a home screen.</p>
+                </article>
+                <article class="feature-item">
+                    <span class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg></span>
+                    <h3>Sign in with what you have</h3>
+                    <p>OpenID Connect, SAML, or the reverse proxy in front: Authelia, Authentik, Keycloak, Pocket ID, Tinyauth, oauth2-proxy, with guides for SWAG, Traefik, Nginx Proxy Manager, and Caddy. Groups carry permissions and limits.</p>
+                </article>
+                <article class="feature-item">
+                    <span class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M11 18h2"/></svg></span>
+                    <h3>Companion apps</h3>
+                    <p>The extension adds the right-click menu and download interception; the phone apps add native file sharing. Both sign in with an application key made on the web, shown as text or a QR code.</p>
+                </article>
+                <article class="feature-item">
+                    <span class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h5l2 2h9v10H4z"/><path d="M12 11v5M9.5 13.5 12 11l2.5 2.5"/></svg></span>
+                    <h3>Files stay on the server</h3>
+                    <p>A file manager, chunked uploads, intercepted downloads, and password-protected share links. A download never touches your disk.</p>
+                </article>
+                <article class="feature-item">
+                    <span class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="9" r="3"/><circle cx="16.5" cy="10" r="2.5"/><path d="M2.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5M13.5 18c.3-2.2 1.6-3.5 3.5-3.5s3.5 1.5 3.5 3.5"/></svg></span>
+                    <h3>Collaboration rooms</h3>
+                    <p>Launch any app into a room with chat, voice and video, gamepad slots, and hand-over of mouse and keyboard. Guests need no account.</p>
+                </article>
+                <article class="feature-item">
+                    <span class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10h4M7 14h2M15 10v4M13 12h4"/></svg></span>
+                    <h3>GPU and Wayland</h3>
+                    <p>NVIDIA, Intel, and AMD acceleration, a Wayland compositor in userspace, and zero-copy encoding straight from GPU memory. H.264, H.265, VP8, VP9, or AV1 at up to 240 frames per second.</p>
+                </article>
+                <article class="feature-item">
+                    <span class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 3 10 2-5h7"/></svg></span>
+                    <h3>VPN exits</h3>
+                    <p>Import WireGuard or OpenVPN profiles. A user picks one at launch and the session leaves through that tunnel and nothing else, on Docker and on Kubernetes.</p>
+                </article>
+                <article class="feature-item">
+                    <span class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/><path d="M7 7h.01M7 17h.01"/></svg></span>
+                    <h3>One server or many</h3>
+                    <p>Nodes join into a cluster with shared users and applications and no master: pools, placement, GPU slots, and home directories that move between nodes. The records are files, or an S3 bucket in place of a database.</p>
+                </article>
+                <article class="feature-item">
+                    <span class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 7.5v9L12 21l8-4.5v-9L12 3Z"/><path d="M12 12 4 7.5M12 12l8-4.5M12 12v9"/></svg></span>
+                    <h3>Kubernetes</h3>
+                    <p>One manifest installs the server in any namespace, with no cluster-scoped objects. Every session is a pod beside it, with GPUs, quotas, and pull secrets honored.</p>
+                </article>
+                <article class="feature-item">
+                    <span class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M8 15h3"/></svg></span>
+                    <h3>Private registries, no internet</h3>
+                    <p>Pull through mirrors and proxies, sign in to private registries, and serve stores, logos, and catalogs from internal hosts. A deployment without internet access runs on these alone.</p>
+                </article>
+                <article class="feature-item">
+                    <span class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 15v2"/></svg></span>
+                    <h3>Private by design</h3>
+                    <p>Clients talk to your server and nothing else. An end-to-end encrypted API for the key-file clients, a sign-in cookie that never reaches a session, a published threat model, and no telemetry.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======================================================= How it works -->
+    <section id="how" class="how-section">
+        <div class="container">
+            <div class="section-header">
+                <p class="eyebrow">How it works</p>
+                <h2>A control plane, a data plane, and containers that are never exposed.</h2>
+                <p>One server container holds the API and a Caddy proxy. Sessions are Selkies-based application containers on the same network, or pods in the same namespace, reachable only through the proxy after it has asked the API whether the request may pass.</p>
             </div>
 
-            <div class="download-category">
-                <span class="category-title">Mobile Apps</span>
-                <div class="grid-2">
-                    <a href="https://apps.apple.com/us/app/sealskin/id6758210210" class="card" target="_blank">
-                        <div class="card-icon logo-ios"></div>
-                        <h3>iOS App Store</h3>
-                        <p>Download for iPhone & iPad.</p>
-                    </a>
-                    <a href="https://play.google.com/store/apps/details?id=io.linuxserver.sealskin" class="card" target="_blank">
-                        <div class="card-icon logo-android"></div>
-                        <h3>Google Play</h3>
-                        <p>Get it on Google Play.</p>
-                    </a>
+            <figure class="diagram">
+                <svg viewBox="0 0 960 440" role="img" aria-labelledby="diagram-title diagram-desc" class="arch">
+                    <title id="diagram-title">SealSkin architecture</title>
+                    <desc id="diagram-desc">Browsers, the extension, and the phone app reach a server over HTTPS on port 8443. Inside the server, Caddy serves the web app and forwards the API to the control plane, which starts session containers or pods and proxies each session to the browser. Other nodes of a cluster share records through a store.</desc>
+                    <defs>
+                        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="arrow-head"/></marker>
+                    </defs>
+
+                    <!-- Clients -->
+                    <g class="group">
+                        <rect x="20" y="40" width="200" height="330" rx="14" class="group-box"/>
+                        <text x="120" y="30" class="group-label" text-anchor="middle">YOUR DEVICES</text>
+                        <rect x="40" y="62" width="160" height="78" rx="10" class="node"/>
+                        <text x="120" y="92" class="node-title" text-anchor="middle">Any browser</text>
+                        <text x="120" y="112" class="node-sub" text-anchor="middle">the web app, signed in</text>
+                        <text x="120" y="128" class="node-sub" text-anchor="middle">with a cookie</text>
+                        <rect x="40" y="156" width="160" height="78" rx="10" class="node"/>
+                        <text x="120" y="186" class="node-title" text-anchor="middle">Browser extension</text>
+                        <text x="120" y="206" class="node-sub" text-anchor="middle">right-click menu, downloads,</text>
+                        <text x="120" y="222" class="node-sub" text-anchor="middle">an application key</text>
+                        <rect x="40" y="250" width="160" height="78" rx="10" class="node"/>
+                        <text x="120" y="280" class="node-title" text-anchor="middle">Phone app</text>
+                        <text x="120" y="300" class="node-sub" text-anchor="middle">iOS and Android,</text>
+                        <text x="120" y="316" class="node-sub" text-anchor="middle">QR sign-in</text>
+                        <text x="120" y="356" class="node-sub" text-anchor="middle">or a key file, end-to-end encrypted</text>
+                    </g>
+
+                    <!-- Link -->
+                    <line x1="220" y1="200" x2="300" y2="200" class="link" marker-end="url(#arrow)"/>
+                    <text x="260" y="188" class="link-label" text-anchor="middle">HTTPS :8443</text>
+                    <text x="260" y="218" class="link-label" text-anchor="middle">WebSockets</text>
+
+                    <!-- Server -->
+                    <g class="group">
+                        <rect x="300" y="40" width="340" height="330" rx="14" class="group-box accent"/>
+                        <text x="470" y="30" class="group-label" text-anchor="middle">YOUR SERVER</text>
+                        <rect x="320" y="62" width="300" height="86" rx="10" class="node"/>
+                        <text x="470" y="90" class="node-title" text-anchor="middle">Caddy, the data plane</text>
+                        <text x="470" y="110" class="node-sub" text-anchor="middle">TLS, the served web UI, /api to the API,</text>
+                        <text x="470" y="126" class="node-sub" text-anchor="middle">/&lt;session&gt; to a container after forward_auth</text>
+                        <rect x="320" y="166" width="300" height="86" rx="10" class="node"/>
+                        <text x="470" y="194" class="node-title" text-anchor="middle">The API, the control plane</text>
+                        <text x="470" y="214" class="node-sub" text-anchor="middle">sign-in, launches, files, rooms, admin,</text>
+                        <text x="470" y="230" class="node-sub" text-anchor="middle">Docker SDK or the Kubernetes API</text>
+                        <rect x="320" y="270" width="140" height="80" rx="10" class="node faint"/>
+                        <text x="390" y="298" class="node-title" text-anchor="middle">Shared store</text>
+                        <text x="390" y="318" class="node-sub" text-anchor="middle">users, apps, groups</text>
+                        <text x="390" y="334" class="node-sub" text-anchor="middle">files or an S3 bucket</text>
+                        <rect x="480" y="270" width="140" height="80" rx="10" class="node faint"/>
+                        <text x="550" y="298" class="node-title" text-anchor="middle">VPN gateway</text>
+                        <text x="550" y="318" class="node-sub" text-anchor="middle">one tunnel per profile</text>
+                        <text x="550" y="334" class="node-sub" text-anchor="middle">and endpoint</text>
+                        <line x1="470" y1="148" x2="470" y2="166" class="link thin" marker-end="url(#arrow)"/>
+                        <line x1="390" y1="252" x2="390" y2="270" class="link thin"/>
+                        <line x1="550" y1="252" x2="550" y2="270" class="link thin"/>
+                    </g>
+
+                    <!-- Link -->
+                    <line x1="640" y1="200" x2="720" y2="200" class="link" marker-end="url(#arrow)"/>
+                    <text x="680" y="188" class="link-label" text-anchor="middle">internal</text>
+                    <text x="680" y="218" class="link-label" text-anchor="middle">network</text>
+
+                    <!-- Sessions -->
+                    <g class="group">
+                        <rect x="720" y="40" width="220" height="330" rx="14" class="group-box"/>
+                        <text x="830" y="30" class="group-label" text-anchor="middle">SESSIONS</text>
+                        <rect x="740" y="62" width="180" height="62" rx="10" class="node session"/>
+                        <text x="830" y="88" class="node-title" text-anchor="middle">Firefox</text>
+                        <text x="830" y="106" class="node-sub" text-anchor="middle">cleanroom, gone on close</text>
+                        <rect x="740" y="138" width="180" height="62" rx="10" class="node session"/>
+                        <text x="830" y="164" class="node-title" text-anchor="middle">Blender</text>
+                        <text x="830" y="182" class="node-sub" text-anchor="middle">GPU, persistent home</text>
+                        <rect x="740" y="214" width="180" height="62" rx="10" class="node session"/>
+                        <text x="830" y="240" class="node-title" text-anchor="middle">Steam</text>
+                        <text x="830" y="258" class="node-sub" text-anchor="middle">collaboration room, 4 gamepads</text>
+                        <rect x="740" y="290" width="180" height="62" rx="10" class="node session faint"/>
+                        <text x="830" y="316" class="node-title" text-anchor="middle">Chromium</text>
+                        <text x="830" y="334" class="node-sub" text-anchor="middle">leaves through a VPN exit</text>
+                    </g>
+
+                    <!-- Cluster hint -->
+                    <g class="cluster-hint">
+                        <rect x="300" y="392" width="340" height="34" rx="10" class="node faint dashed"/>
+                        <text x="470" y="414" class="node-sub" text-anchor="middle">more nodes join the same store: pools, placement, GPU slots</text>
+                        <line x1="390" y1="350" x2="390" y2="392" class="link thin dashed"/>
+                    </g>
+                </svg>
+                <figcaption>Containers are never published on a host port. Only the proxy reaches them, and only for a request the API has approved.</figcaption>
+            </figure>
+
+            <div class="ways-in">
+                <h3>Three ways in</h3>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th scope="col"></th><th scope="col">Web sign-in</th><th scope="col">Application key</th><th scope="col">Key file</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><th scope="row">Clients</th><td>The web app at the server's address</td><td>The extension and the phone app, as companions of the web app</td><td>The extension and the phone app with a configuration file</td></tr>
+                            <tr><th scope="row">Who you are</th><td>The root key, an identity provider, or a reverse proxy says</td><td>A key you made in the web app names you</td><td>Your RSA key signs every request</td></tr>
+                            <tr><th scope="row">Transport</th><td>HTTPS with a trusted certificate</td><td>HTTPS with a trusted certificate</td><td>HTTPS, or encrypted payloads over plain HTTP</td></tr>
+                            <tr><th scope="row">Reaches</th><td>Every node of a cluster</td><td>Every node of a cluster</td><td>The one server the file names</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="table-note">The extension and the phone app are thin shells. The launcher, dashboard, file manager, and rooms are served by your server, so interface updates never wait for a store review. <a href="https://docs.sealskin.app/architecture" target="_blank" rel="noopener noreferrer" class="text-link">Architecture</a> and <a href="https://docs.sealskin.app/signin" target="_blank" rel="noopener noreferrer" class="text-link">Signing in</a> have the details.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================================= Tech blocks -->
+    <section class="tech-section">
+        <div class="container">
+
+            <div class="tech-block reversed">
+                <div class="tech-text">
+                    <p class="eyebrow">Any application</p>
+                    <h3>A whole desktop, in a tab</h3>
+                    <p>
+                        One tile can be Firefox; another can be a full <strong>KDE, XFCE, MATE, or i3 desktop</strong> on Ubuntu, Debian, Fedora, Arch, Alpine, or Kali, with Steam, Blender, or an IDE inside it and a GPU behind it. It fills the browser tab, follows the window when it resizes, and is reachable from a phone.
+                    </p>
+                    <p>
+                        The home directory is a folder on your server, so the desktop is exactly as you left it from any device, and the <strong>files</strong> you send from the launcher are already on its desktop.
+                    </p>
+                </div>
+                <div class="tech-visual">
+                    <img src="img/session-kde.webp" alt="A KDE Plasma desktop streamed in the browser, with the Steam library open" loading="lazy" width="2400" height="1500">
                 </div>
             </div>
 
             <div class="tech-block">
                 <div class="tech-text">
-                    <h3>Quick Start with DuckDNS</h3>
+                    <p class="eyebrow">Streaming</p>
+                    <h3>Built on Selkies</h3>
                     <p>
-                        Don't have a domain or know how to manage SSL certificates? No problem. 
-                        We provide a helper script to spin up SealSkin with a legitimate wildcard SSL certificate using DuckDNS.
+                        Traditional remote desktops struggle with corporate firewalls and NAT traversal. <a href="https://github.com/selkies-project/selkies" target="_blank" rel="noopener noreferrer" class="text-link">Selkies</a> streams over plain <strong>WebSockets on port 443</strong>, so a session works anywhere a web page loads, with <strong>WebRTC</strong> as an opt-in transport when you want it. No VPN and no dedicated client.
                     </p>
                     <p>
-                        Simply navigate to <a href="https://www.duckdns.org/" target="_blank" class="text-link">DuckDNS.org</a>, create a sub-domain, get your token, and run the installation script on your Linux server.
+                        The video is <strong>H.264, H.265, VP8, VP9, or AV1</strong>, encoded by NVENC on NVIDIA, VA-API on Intel and AMD, or in software where there is no GPU, at up to <strong>240 frames per second</strong>, with 10-bit and full-color modes and a sharp still frame painted over the video when nothing moves. Clipboard both ways, audio, microphone, webcam, printing, file transfer, gamepads, a second screen, and a gaming mode that holds the pointer and keyboard, in Chromium, Firefox, and Safari.
                     </p>
                 </div>
                 <div class="tech-visual">
-                    <code class="code-caption">// Auto-Install Script</code>
-                    <div class="code-block"><button class="copy-btn">Copy</button>mkdir sealskin
-cd sealskin
-bash <(curl -sSL https://raw.githubusercontent.com/linuxserver/docker-sealskin/refs/heads/master/install.sh)</div>
-                    <p class="code-note">
-                        This will setup pathing, ownership, docker config, and a legit wildcard SSL certificate.
+                    <video controls muted playsinline preload="metadata" aria-label="A 3D application streamed through Selkies">
+                        <source src="img/selkies3d.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+
+            <div class="tech-block reversed">
+                <div class="tech-text">
+                    <p class="eyebrow">Together</p>
+                    <h3>Pass the controller</h3>
+                    <p>
+                        Launch any application into a <strong>collaboration room</strong> and invite people with a link. Participants chat, talk, and see each other; the host hands the mouse and keyboard to one of them, maps gamepad slots to players for couch co-op over the web, and swaps the room to another application without ending it.
                     </p>
+                    <p>
+                        Viewers get a read-only login of their own, tokens travel in the URL fragment where no log sees them, and no third-party relay is involved: everyone connects to your server.
+                    </p>
+                </div>
+                <div class="tech-visual">
+                    <img src="img/collaboration.png" alt="A collaboration room: a game streamed in the center, participant video tiles with gamepad slots below, chat and invite links on the right" loading="lazy" width="2067" height="1239">
+                </div>
+            </div>
+
+            <div class="tech-block">
+                <div class="tech-text">
+                    <p class="eyebrow">Performance</p>
+                    <h3>Zero copy, from GPU to encoder</h3>
+                    <p>
+                        Sessions run a <strong>Wayland</strong> compositor in userspace, built on Smithay, instead of a legacy Xvfb framebuffer. <strong>Pixelflux</strong>, the Rust capture and encoding engine behind Selkies, takes the compositor's buffers straight from GPU memory on NVIDIA, Intel, and AMD and hands them to the hardware encoder.
+                    </p>
+                    <p>
+                        The CPU never touches a pixel, which is what makes gaming-grade streaming possible on modest hardware. Without a GPU the same engine still delivers 60 frames per second at 1080p in software on less than one core. Applications that misbehave under Wayland can be launched on X11, where NvFBC or DRI3 capture takes the same path.
+                    </p>
+                </div>
+                <div class="tech-visual">
+                    <img src="img/pixelflux_architecture.png" alt="Pixelflux zero-copy pipeline: the Wayland compositor's buffers go from GPU memory to the hardware encoder without a CPU copy" loading="lazy" width="1408" height="768">
+                </div>
+            </div>
+
+            <div class="tech-block reversed">
+                <div class="tech-text">
+                    <p class="eyebrow">Scale</p>
+                    <h3>A bucket, not a database</h3>
+                    <p>
+                        What the nodes of a cluster share is a small set of YAML records: users, groups, applications, templates, branding, and the cluster's own bookkeeping. Point every node at an <strong>S3 bucket</strong> and the records live there, so no node is the keeper of what the others depend on, and <strong>no database</strong> has to be run, replicated, or backed up.
+                    </p>
+                    <p>
+                        Every write is conditional on the record being as the node last read it, so two administrators never overwrite each other unseen. Nodes come and go: one started again on an empty configuration directory with the same name and storage is the same node, and a whole deployment can be stopped and started in any order from nothing but the bucket and each node's storage. The records hold no secret, and what has to be secret, from credentials to the users' shared files, is sealed under a cluster key before it is written. <a href="https://docs.sealskin.app/object-store" target="_blank" rel="noopener noreferrer" class="text-link">Object store</a> in the docs has the rest.
+                    </p>
+                </div>
+                <div class="tech-visual tech-visual-svg">
+                    <svg viewBox="0 0 560 392" role="img" aria-labelledby="store-title" class="arch store-diagram">
+                        <title id="store-title">Three nodes reading and writing one object store</title>
+                        <defs>
+                            <marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="arrow-head"/></marker>
+                        </defs>
+                        <!-- nodes -->
+                        <g>
+                            <rect x="20" y="30" width="150" height="86" rx="10" class="node"/>
+                            <text x="95" y="60" class="node-title" text-anchor="middle">node-a</text>
+                            <text x="95" y="80" class="node-sub" text-anchor="middle">frontend + runtime</text>
+                            <text x="95" y="98" class="node-sub" text-anchor="middle">Docker, 2 GPUs</text>
+                        </g>
+                        <g>
+                            <rect x="20" y="244" width="150" height="86" rx="10" class="node"/>
+                            <text x="95" y="274" class="node-title" text-anchor="middle">node-b</text>
+                            <text x="95" y="294" class="node-sub" text-anchor="middle">runtime</text>
+                            <text x="95" y="312" class="node-sub" text-anchor="middle">Kubernetes</text>
+                        </g>
+                        <g>
+                            <rect x="390" y="137" width="150" height="86" rx="10" class="node faint dashed"/>
+                            <text x="465" y="167" class="node-title" text-anchor="middle">node-c</text>
+                            <text x="465" y="187" class="node-sub" text-anchor="middle">joins by writing</text>
+                            <text x="465" y="205" class="node-sub" text-anchor="middle">its record</text>
+                        </g>
+                        <!-- bucket -->
+                        <g>
+                            <rect x="200" y="100" width="160" height="160" rx="16" class="group-box accent"/>
+                            <ellipse cx="280" cy="128" rx="48" ry="12" class="node session"/>
+                            <path d="M232 128v60c0 6.6 21.5 12 48 12s48-5.4 48-12v-60" class="node session"/>
+                            <text x="280" y="222" class="node-title" text-anchor="middle">S3 bucket</text>
+                            <text x="280" y="242" class="node-sub" text-anchor="middle">users, groups, apps, templates</text>
+                        </g>
+                        <!-- links -->
+                        <line x1="170" y1="73" x2="232" y2="118" class="link" marker-end="url(#arrow2)" marker-start="url(#arrow2)"/>
+                        <line x1="170" y1="287" x2="232" y2="242" class="link" marker-end="url(#arrow2)" marker-start="url(#arrow2)"/>
+                        <line x1="360" y1="180" x2="390" y2="180" class="link dashed" marker-end="url(#arrow2)" marker-start="url(#arrow2)"/>
+                        <text x="280" y="300" class="link-label" text-anchor="middle">conditional writes, polled reads</text>
+                        <text x="280" y="356" class="node-sub" text-anchor="middle">no master, no database, nothing secret in the records</text>
+                        <text x="280" y="376" class="node-sub" text-anchor="middle">a file store on one node is the default</text>
+                    </svg>
                 </div>
             </div>
 
         </div>
     </section>
 
-    <section id="apps" class="app-scroller">
-        <div class="container section-header">
-            <h2>The Library</h2>
-            <p>Over 100+ containerized applications and desktops ready to launch.</p>
-        </div>
-        <div class="scroller-track" id="appTrack">
-            <!-- Apps injected via JS -->
-        </div>
-    </section>
-
-    <section id="features" class="container">
-        <div class="section-header">
-            <h2>Why SealSkin?</h2>
-            <p>A novel approach to remote computing, built from the ground up for the modern web.</p>
-        </div>
-        <div class="features-grid">
-            <div class="feature-item">
-                <span class="feature-icon">🛡️</span>
-                <h3>Total Isolation</h3>
-                <p>Execute web content and downloads in a sandboxed container on your server. Malware stops at the container boundary, never reaching your local device.</p>
+    <!-- =========================================================== Admins -->
+    <section id="admin" class="admin-section">
+        <div class="container">
+            <div class="section-header">
+                <p class="eyebrow">For administrators</p>
+                <h2>One dashboard, and plain files underneath.</h2>
+                <p>Everything an administrator does lives in the same web app users see. All of it is YAML under <code>/config</code> that the server reloads when you edit it by hand.</p>
             </div>
-            <div class="feature-item">
-                <span class="feature-icon">⚡</span>
-                <h3>WebSockets, Not WebRTC</h3>
-                <p>We bypass the complexity of STUN/TURN servers. If you can load a webpage over HTTPS, you can stream a high-performance desktop.</p>
+            <div class="admin-grid">
+            <ul class="admin-list">
+                <li><strong>Users and groups</strong> with storage, sharing, GPU, hardening, session, and time limits. New users from a provider can be held until approved.</li>
+                <li><strong>App stores</strong> that are YAML catalogs at a URL, refreshed on a schedule, with installs that follow the store and keep only your overrides.</li>
+                <li><strong>Templates</strong> that expose every Selkies setting as cards: encoders, display, input, audio, WebRTC, hardening, container options.</li>
+                <li><strong>The App Laboratory</strong>, where a base image, a startup script, and an icon become a custom launcher without a Dockerfile.</li>
+                <li><strong>PRoot Apps catalogs</strong> of portable applications, fetched on every node and mounted into sessions.</li>
+                <li><strong>VPN profiles</strong> imported from one config file or a zip of thousands, with endpoints, caps, and who may use them.</li>
+                <li><strong>Branding</strong>: name, logo, accent, wallpaper, and home links, previewed live before saving.</li>
+                <li><strong>Sign In</strong>: OpenID Connect and SAML with a test button, proxy headers, and where a signed-out browser lands.</li>
+                <li><strong>Cluster</strong>: nodes, pools, the store, and usage per user by day, week, or month.</li>
+                <li><strong>Audit log</strong> of sign-ins, launches, and changes on every node, searchable and exportable.</li>
+            </ul>
+            <div class="tech-visual admin-shot">
+                <img src="img/admin-branding.webp" alt="The Branding panel: product name, logo, link, accent color, and companion app links, with a live preview of the home page" loading="lazy" width="2400" height="1500">
             </div>
-            <div class="feature-item">
-                <span class="feature-icon">🎮</span>
-                <h3>Low Latency Input</h3>
-                <p>Experience near-native responsiveness with gamepad support, absolute mouse positioning, and high-fidelity audio forwarding.</p>
             </div>
-            <div class="feature-item">
-                <span class="feature-icon">🐧</span>
-                <h3>Native 3D Support</h3>
-                <p>Run demanding GL applications like Blender or FreeCAD, working just like a native monitor through your web browser.</p>
-            </div>
-            <div class="feature-item">
-                <span class="feature-icon">🎨</span>
-                <h3>The App Laboratory</h3>
-                <p>Don't just run our apps—build your own. Use our Meta App system to create custom launchers and toolsets without writing Dockerfiles.</p>
-            </div>
-            <div class="feature-item">
-                <span class="feature-icon">👥</span>
-                <h3>Multi-User Collaboration</h3>
-                <p>Pass the controller. Invite users to your session with role-based access tokens for true real-time collaborative computing.</p>
-            </div>
+            <p class="admin-more"><a href="https://docs.sealskin.app/administration" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Administration guide</a> <a href="https://docs.sealskin.app/settings" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Settings reference</a></p>
         </div>
     </section>
 
-    <section class="container tech-section">
-
-        <div class="tech-block reversed">
-            <div class="tech-text">
-                <h3>Secure Self-Hosted Collaboration</h3>
-                <p>
-                    Turn any isolated container into a <span class="highlight">multiplayer workspace</span> instantly. No third-party relays, no privacy trade-offs—just you and your guests connected directly to your server.
-                </p>
-                <p>
-                    Generate secure invite links with granular permissions. Seamlessly pass <strong>Mouse & Keyboard</strong> control to a colleague for pair programming, or grant <strong>Read-Only</strong> access for demonstrations.
-                </p>
-                <p>
-                    For gaming, the host can map remote users to specific virtual <strong>Gamepads</strong>, enabling low-latency "couch co-op" experiences over the web with full audio synchronization and integrated chat.
-                </p>
+    <!-- ========================================================= Community -->
+    <section id="community" class="community-section">
+        <div class="container">
+            <div class="section-header">
+                <p class="eyebrow">Community</p>
+                <h2>Open source, in the open.</h2>
+                <p>SealSkin is developed by the Selkies Project with LinuxServer.io and licensed under the Mozilla Public License 2.0.</p>
             </div>
-            <div class="tech-visual">
-                <img src="img/collaboration.png" alt="SealSkin Collaboration Interface">
+            <div class="community-grid">
+                <a href="https://docs.sealskin.app/" class="card" target="_blank" rel="noopener noreferrer"><h3>Documentation</h3><p>Getting started, signing in, clusters, Kubernetes, the API, and a reference for every setting.</p></a>
+                <a href="https://github.com/selkies-project/sealskin" class="card" target="_blank" rel="noopener noreferrer"><h3>Source and issues</h3><p>The server, the web UI, the extension, and the mobile shells in one repository.</p></a>
+                <a href="https://github.com/selkies-project/sealskin/releases" class="card" target="_blank" rel="noopener noreferrer"><h3>Releases</h3><p>Release notes, extension zips, the APK and IPA, and the server wheel.</p></a>
+                <a href="https://discord.com/invite/linuxserver" class="card" target="_blank" rel="noopener noreferrer"><h3>Discord</h3><p>Questions and support in the LinuxServer.io community.</p></a>
+                <a href="https://github.com/linuxserver/sealskin-apps" class="card" target="_blank" rel="noopener noreferrer"><h3>Application catalog</h3><p>The default app store. Add an application with a pull request.</p></a>
+                <a href="https://deepwiki.com/selkies-project/sealskin" class="card" target="_blank" rel="noopener noreferrer"><h3>DeepWiki</h3><p>Ask questions about the codebase and get answers with references.</p></a>
             </div>
         </div>
-        
-        <div class="tech-block">
-            <div class="tech-text">
-                <h3>The Selkies Project Foundation</h3>
-                <p>
-                    Traditional remote desktop solutions struggle with corporate firewalls and complex NAT traversal. <span class="highlight">Selkies changes the game.</span>
-                </p>
-                <p>
-                    By leveraging standard <strong>WebSockets over port 443</strong>, we deliver a 60fps, low-latency stream that works anywhere the web works. No VPNs, no dedicated clients, no networking headaches.
-                </p>
-                <p>
-                    The client uses modern <strong>WebCodecs</strong> to hardware decode H.264 video directly in the browser, ensuring your battery stays charged and your fan stays silent with a full desktop experience.
-                </p>
-            </div>
-            <div class="tech-visual">
-                <video controls>
-                    <source src="img/selkies3d.mp4" type="video/mp4">
-                </video>
-            </div>
-        </div>
-
-        <div class="tech-block reversed">
-            <div class="tech-text">
-                <h3>Ephemeral Orchestration</h3>
-                <p>
-                    SealSkin isn't just a streamer; it's a lifecycle manager. Need to check a suspicious link? Launch a <strong>Cleanroom</strong> session.
-                </p>
-                <p>
-                    The moment you close the tab, the container is destroyed—cookies, history, and downloads vanish. Need to code? Mount a <strong>Persistent Home</strong> directory and your environment is exactly where you left it, accessible from any device.
-                </p>
-                <p>
-                    All sessions are protected by <strong>End-to-End Encryption</strong> keys generated on the fly, ensuring only you hold the keys to your pixels.
-                </p>
-            </div>
-            <div class="tech-visual">
-                <img src="img/sealskin_dashboard.png" alt="SealSkin Dashboard Interface">
-            </div>
-        </div>
-
-        <div class="tech-block">
-            <div class="tech-text">
-                <h3>The App Laboratory</h3>
-                <p>
-                    Power users shouldn't be limited to a static list of apps. With <strong>Meta Apps</strong>, you can curate your own digital workspace.
-                </p>
-                <p>
-                    Take a base desktop image, inject a custom startup script, upload your own icon, and customize away in a full desktop interface. SealSkin treats your custom configuration as a first-class citizen in the library.
-                </p>
-                <p>
-                    Whether it's a specific development IDE configuration or a legacy toolset, you can build it once and launch it anywhere.
-                </p>
-            </div>
-            <div class="tech-visual">
-                <img src="img/app_lab_config.png" alt="Meta App Configuration Screen">
-            </div>
-        </div>
-
-        <div class="tech-block reversed">
-            <div class="tech-text">
-                <h3>Powered by Smithay & Pixelflux</h3>
-                <p>
-                    We've moved beyond legacy Xvfb. Our new Wayland mode leverages <strong>Smithay</strong> to create a virtual framebuffer in userspace that acts as a true compositor.
-                </p>
-                <p>
-                    This unlocks <strong>Zero Copy</strong> encoding on NVIDIA, Intel, and AMD GPUs. Our driver, <strong>Pixelflux</strong>, grabs pixel buffers directly from GPU memory and feeds them to the hardware encoder. The CPU never touches a pixel.
-                </p>
-                <p>
-                    The result? 60fps+ gaming-grade streaming performance on modest hardware.
-                </p>
-                <div class="code-block" style="margin-top: 1.5rem;"><button class="copy-btn">Copy</button>-e PIXELFLUX_WAYLAND=true</div>
-            </div>
-            <div class="tech-visual">
-                <img src="img/pixelflux_architecture.png" alt="Pixelflux Zero Copy Architecture">
-            </div>
-        </div>
-
     </section>
+
+    </main>
 
     <footer>
         <div class="container footer-content">
-            <div>
-                &copy; 2026 LinuxServer.io
+            <div class="footer-brand">
+                <img src="img/logo.svg" alt="" width="28" height="28">
+                <span>&copy; 2026 Selkies Project and LinuxServer.io. MPL 2.0.</span>
             </div>
             <div class="footer-links">
-                <a href="https://docs.sealskin.app/" target="_blank" rel="noopener noreferrer">Documentation</a>
-                <a href="https://github.com/selkies-project/sealskin/" target="_blank">Source Code</a>
-                <a href="https://deepwiki.com/selkies-project/sealskin" target="_blank" rel="noopener noreferrer">DeepWiki</a>
-                <a href="https://github.com/linuxserver/docker-sealskin" target="_blank">Docker</a>
-                <a href="https://discord.com/invite/linuxserver" target="_blank">Discord</a>
+                <a href="https://docs.sealskin.app/" target="_blank" rel="noopener noreferrer">Docs</a>
+                <a href="https://github.com/selkies-project/sealskin" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://github.com/linuxserver/docker-sealskin" target="_blank" rel="noopener noreferrer">Container</a>
+                <a href="https://github.com/selkies-project/selkies" target="_blank" rel="noopener noreferrer">Selkies</a>
+                <a href="https://discord.com/invite/linuxserver" target="_blank" rel="noopener noreferrer">Discord</a>
+                <a href="https://github.com/selkies-project/sealskin/blob/main/PRIVACY.md" target="_blank" rel="noopener noreferrer">Privacy</a>
             </div>
         </div>
     </footer>

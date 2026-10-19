@@ -12,12 +12,24 @@ It is a static site: no framework, no build step.
 
 | File | Purpose |
 | --- | --- |
-| `index.html` | The page, with links out to the clients, the server, the docs, and the community. |
-| `index.css` | Styling and the CSS animations. |
-| `index.js` | The app marquee, the hero animation, the copy buttons, and the screenshot lightbox. |
+| `index.html` | The page: what SealSkin does, how to get it, the catalog, how it works, and where to find the project. |
+| `index.css` | Styling for the dark and light themes, and the CSS animations. |
+| `index.js` | The app marquee, the hero backdrop, the install tabs, the copy buttons, and the screenshot lightbox. |
 | `theme.js` | The light, dark, or system theme the header's switch picks, applied before the first paint. |
-| `apps.js` | The list of LinuxServer.io application containers shown in the marquee. |
-| `img/` | Logos, screenshots, and the demo video. |
+| `apps.js` | The applications the marquee shows, generated from the catalog (see below). |
+| `scripts/sync-apps.py` | Rebuilds `apps.js` from `apps.yml` in [linuxserver/sealskin-apps](https://github.com/linuxserver/sealskin-apps). |
+| `img/` | The logo (`logo.svg`, the same file as the project's), the icons made from it, the client logos, the social card, and the pictures the page shows. |
+
+## Refresh the application list
+
+```bash
+python3 scripts/sync-apps.py                      # fetches apps.yml from GitHub
+python3 scripts/sync-apps.py ../sealskin-apps/apps.yml   # or from a local checkout
+```
+
+The script needs PyYAML. It folds the Webtop desktop variants into one entry per
+distribution and sorts the rest by name; the page rounds the count it shows down to a
+multiple of ten, so a few additions never make the number wrong.
 
 ## Preview locally
 
