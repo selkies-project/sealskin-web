@@ -1,6 +1,6 @@
 # SealSkin Website
 
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/selkies-project/sealskin-web)
+[![Pages](https://github.com/selkies-project/sealskin-web/actions/workflows/pages.yml/badge.svg)](https://github.com/selkies-project/sealskin-web/actions/workflows/pages.yml) [![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0) [![Discord](https://img.shields.io/discord/354974912613449730?logo=discord&label=Discord)](https://discord.com/invite/linuxserver) [![Ask DeepWiki](https://img.shields.io/badge/Ask-DeepWiki-blue)](https://deepwiki.com/selkies-project/sealskin-web)
 
 The landing page for [SealSkin](https://github.com/selkies-project/sealskin), served at
 [sealskin.app](https://sealskin.app/). The documentation lives separately at
