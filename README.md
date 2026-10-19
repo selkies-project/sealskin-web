@@ -15,6 +15,7 @@ It is a static site: no framework, no build step.
 | `index.html` | The page, with links out to the clients, the server, the docs, and the community. |
 | `index.css` | Styling and the CSS animations. |
 | `index.js` | The app marquee, the hero animation, the copy buttons, and the screenshot lightbox. |
+| `theme.js` | The light, dark, or system theme the header's switch picks, applied before the first paint. |
 | `apps.js` | The list of LinuxServer.io application containers shown in the marquee. |
 | `img/` | Logos, screenshots, and the demo video. |
 
