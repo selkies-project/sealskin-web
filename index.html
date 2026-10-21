@@ -7,7 +7,7 @@
     <title>SealSkin | Self-hosted browser isolation and application streaming</title>
     <meta name="description" content="SealSkin runs desktop applications in isolated containers on a server you control and streams them to any browser or phone. Open links, files, and downloads remotely instead of locally. Open source, built on Selkies.">
     <meta name="author" content="Selkies Project">
-    <meta name="keywords" content="Remote Browser Isolation, RBI, VDI, application streaming, self-hosted, Docker, Kubernetes, Selkies, LinuxServer.io, Wayland, WebSockets, OpenID Connect, SAML">
+    <meta name="keywords" content="Remote Browser Isolation, RBI, VDI, application streaming, self-hosted, Docker, Kubernetes, Selkies, LinuxServer.io, Wayland, X11, WebSockets, OpenID Connect, SAML">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://sealskin.app/">
     <meta property="og:type" content="website">
@@ -323,8 +323,8 @@ kubectl apply -n &lt;namespace&gt; -f sealskin.yml</div>
                 </article>
                 <article class="feature-item">
                     <span class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10h4M7 14h2M15 10v4M13 12h4"/></svg></span>
-                    <h3>GPU and Wayland</h3>
-                    <p>NVIDIA, Intel, and AMD acceleration, a Wayland compositor in userspace, and zero-copy encoding straight from GPU memory. H.264, H.265, VP8, VP9, or AV1 at up to 240 frames per second.</p>
+                    <h3>GPU, Wayland, and X11</h3>
+                    <p>NVIDIA, Intel, and AMD acceleration with zero-copy encoding straight from GPU memory, on a Wayland compositor in userspace or on an X server whose screen lives on the GPU. H.264, H.265, VP8, VP9, or AV1 at up to 240 frames per second.</p>
                 </article>
                 <article class="feature-item">
                     <span class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 3 10 2-5h7"/></svg></span>
@@ -533,14 +533,17 @@ kubectl apply -n &lt;namespace&gt; -f sealskin.yml</div>
                     <p class="eyebrow">Performance</p>
                     <h3>Zero copy, from GPU to encoder</h3>
                     <p>
-                        Sessions run a <strong>Wayland</strong> compositor in userspace, built on Smithay, instead of a legacy Xvfb framebuffer. <strong>Pixelflux</strong>, the Rust capture and encoding engine behind Selkies, takes the compositor's buffers straight from GPU memory on NVIDIA, Intel, and AMD and hands them to the hardware encoder.
+                        By default a session runs a <strong>Wayland</strong> compositor in userspace, built on Smithay. <strong>Pixelflux</strong>, the Rust capture and encoding engine behind Selkies, takes the compositor's buffers straight from GPU memory on NVIDIA, Intel, and AMD and hands them to the hardware encoder.
                     </p>
                     <p>
-                        The CPU never touches a pixel, which is what makes gaming-grade streaming possible on modest hardware. Without a GPU the same engine still delivers 60 frames per second at 1080p in software on less than one core. Applications that misbehave under Wayland can be launched on X11, where NvFBC or DRI3 capture takes the same path.
+                        <strong>X11</strong> takes the same path. The images carry a build of XLibre's Xvfb patched so the screen itself lives on the GPU: Pixelflux captures it through DRI3, or through NvFBC on NVIDIA's X driver, and the encoder waits on a GPU semaphore rather than the CPU for each frame. Wayland is the default and the better fit for most applications; desktops that only run on X11, and applications that misbehave under Wayland, launch on X11 and give nothing up.
+                    </p>
+                    <p>
+                        On either backend the CPU never touches a pixel, which is what makes gaming-grade streaming possible on modest hardware. Without a GPU the same engine still delivers 60 frames per second at 1080p in software on less than one core.
                     </p>
                 </div>
                 <div class="tech-visual">
-                    <img src="img/pixelflux_architecture.png" alt="Pixelflux zero-copy pipeline: the Wayland compositor's buffers go from GPU memory to the hardware encoder without a CPU copy" loading="lazy" width="1408" height="768">
+                    <img src="img/pixelflux_architecture.png" alt="Pixelflux zero-copy pipeline: the display server's buffers go from GPU memory to the hardware encoder without a CPU copy" loading="lazy" width="1408" height="768">
                 </div>
             </div>
 
