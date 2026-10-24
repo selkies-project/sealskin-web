@@ -1,6 +1,6 @@
 <h1 align="center">SealSkin Website</h1>
 
-<p align="center">Part of <a href="https://www.linuxserver.io"><img src="https://raw.githubusercontent.com/selkies-project/sealskin-web/main/img/linuxserver.svg" alt="LinuxServer.io" title="LinuxServer.io" width="200" align="middle"></a></p>
+<p align="center">Part of <a href="https://www.linuxserver.io"><img src="https://raw.githubusercontent.com/selkies-project/sealskin-web/main/img/linuxserver.svg" alt="LinuxServer.io" title="LinuxServer.io" width="182" align="middle"></a></p>
 
 [![Pages](https://github.com/selkies-project/sealskin-web/actions/workflows/pages.yml/badge.svg)](https://github.com/selkies-project/sealskin-web/actions/workflows/pages.yml) [![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0) [![Discord](https://img.shields.io/discord/354974912613449730?logo=discord&label=Discord)](https://discord.com/invite/linuxserver) [![Ask DeepWiki](https://img.shields.io/badge/Ask-DeepWiki-blue)](https://deepwiki.com/selkies-project/sealskin-web)
 
